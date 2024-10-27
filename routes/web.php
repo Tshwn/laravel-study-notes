@@ -9,4 +9,5 @@ Route::get('/', function () {
 });
 
 // Route::get('hello',[HelloController::class, 'index']);
-Route::get('hello',[HelloController::class,'index'])->middleware('helo');
+Route::get('hello',[HelloController::class,'index']);
+Route::post('hello',[HelloController::class,'post']);
