@@ -3,6 +3,7 @@
 use App\Http\Controllers\HelloController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\HelloMiddleware;
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 
 Route::get('/', function () {
     return view('welcome');
