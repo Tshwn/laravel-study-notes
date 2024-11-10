@@ -32,17 +32,19 @@ use Illuminate\Support\Facades\DB; // 192ページで追加
                 'age' => $request->age,
             ];
 
-            DB::insert('INSERT INTO people (name,mail,age) VALUES (:name, :mail, :age)',$param);
+            // DB::insert('INSERT INTO people (name,mail,age) VALUES (:name, :mail, :age)',$param); //217ページでクエリビルダに変更
+            DB::table('people')->insert($param);
             return redirect('/hello');
         }
 
         public function edit(Request $request) {
-            $param = ['id' => $request->id];
-            $item = DB::select('SELECT * FROM people WHERE id = :id',$param);
+            // $item = DB::select('SELECT * FROM people WHERE id = :id',$param); //218ページで変更
+            $item = DB::table('people')->where('id',$request->id)->first();
             if (empty($item)) {
                 return redirect('/hello')->with('error', 'Record not found.');
             }
-            return view('hello.edit',['form' => $item[0]]);
+            return view('hello.edit',['form' => $item]); 
+            //クエリビルダによってオブジェクトとして渡すので$item[0]の[0]が不要になった
         }
 
         public function update(Request $request) {
@@ -52,21 +54,21 @@ use Illuminate\Support\Facades\DB; // 192ページで追加
                 'mail' => $request->mail,
                 'age' => $request->age,
             ];
-            DB::update('UPDATE people SET name = :name,mail = :mail,age = :age WHERE id = :id',$param);
+            // DB::update('UPDATE people SET name = :name,mail = :mail,age = :age WHERE id = :id',$param);
+            //218ページでクエリビルダに変更
+            DB::table('people')->where('id',$request->id)->update($param);
             return redirect('/hello');
         }
 
         public function del(Request $request) {
-            $param = ['id' => $request->id];
-            $item = DB::select('SELECT * FROM people WHERE id = :id', $param);
-            return view('hello.del',['form' => $item[0]]);
+            // $item = DB::select('SELECT * FROM people WHERE id = :id', $param); //220ページで変更
+            $item = DB::table('people')->where('id',$request->id)->first();
+            return view('hello.del',['form' => $item]);
         }
 
         public function remove(Request $request) {
-            $param = [
-                'id' => $request->id,
-            ];
-            DB::delete('DELETE FROM people WHERE id = :id',$param);
+            // DB::delete('DELETE FROM people WHERE id = :id',$param); 220ページで変更
+            DB::table('people')->where('id',$request->id)->delete();
             return redirect('/hello');
         }
 
