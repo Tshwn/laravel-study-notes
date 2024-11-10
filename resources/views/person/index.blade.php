@@ -4,7 +4,7 @@
 
 @section('menubar')
   @parent
-  検索スページ
+  検索ページ
 @endsection
 
 @section('content')
