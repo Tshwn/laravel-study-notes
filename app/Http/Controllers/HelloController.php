@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\DB; // 192ページで追加
     class HelloController extends Controller
     {
         public function index(Request $request) {
-            $items = DB::select('SELECT * FROM people');
+            // $items = DB::select('SELECT * FROM people'); //205ページでクエリビルダに変更
+            $items = DB::table('people')->get(); //205ページで追加
             return view('hello.index',['items' => $items]);
         }
 
@@ -67,5 +68,14 @@ use Illuminate\Support\Facades\DB; // 192ページで追加
             ];
             DB::delete('DELETE FROM people WHERE id = :id',$param);
             return redirect('/hello');
+        }
+
+        public function show(Request $request) {
+            $id = $request->id;
+            $item = DB::table('people')->where('id',$id)->first();
+            if (empty($item)) {
+                return redirect('/hello')->with('error', 'Record not found.');
+            }
+            return view('hello.show',['item' => $item]);
         }
     }  
