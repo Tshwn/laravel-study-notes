@@ -8,26 +8,22 @@
 @endsection
 
 @section('content')
-<!-- 242ページで変更 -->
 <table>
-  <tr><th>Data</th></tr>
-  @foreach ($items as $item)
+  <tr><th>Person</th><th>Board</th></tr>
+  @foreach($items as $item)
   <tr>
     <td>{{ $item->getData() }}</td>
+    <td>@if ($item->boards != null)
+      <table width="100%">
+        @foreach ($item->boards as $obj)
+        <tr><td>{{ $obj->getData() }}</td></tr>
+        @endforeach
+      </table>
+        @endif
+    </td>
   </tr>
   @endforeach
 </table>
-<!-- <table>
-  <tr><th>id</th><th>Name</th><th>Mail</th><th>Age</th></tr>
-  @foreach ($items as $item)
-  <tr>
-    <td>{{ $item->id }}</td>
-    <td>{{ $item->name }}</td>
-    <td>{{ $item->mail }}</td>
-    <td>{{ $item->age }}</td>
-  </tr>
-  @endforeach
-</table> -->
 @endsection
 
 @section('footer')

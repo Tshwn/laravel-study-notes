@@ -21,5 +21,7 @@ class DatabaseSeeder extends Seeder
         // ]); //デフォルトで置いてあるやつ
 
         $this->call(PeopleTableSeeder::class);
+
+        $this->call(BoardsTableSeeder::class);
     }
 }

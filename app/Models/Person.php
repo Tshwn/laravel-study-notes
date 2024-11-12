@@ -10,6 +10,10 @@ class Person extends Model
 {
     protected $table = 'people';
 
+    public function boards() {
+        return $this->hasMany('App\Models\Board');
+    }
+
     protected $guarded = array('id');
 
     public static $rules = array(
