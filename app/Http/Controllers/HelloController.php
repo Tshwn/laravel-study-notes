@@ -8,13 +8,16 @@ use App\Http\Requests\HelloRequest; // 142pページで追加
 use Illuminate\Foundation\Validation\ValidatesRequests; //165ページで追加
 use Validator; // 144ページで追加
 use Illuminate\Support\Facades\DB; // 192ページで追加
+use App\Models\Person;
 
     class HelloController extends Controller
     {
         public function index(Request $request) {
-            // $items = DB::select('SELECT * FROM people'); //205ページでクエリビルダに変更
-            $items = DB::table('people')->get(); //205ページで追加
-            return view('hello.index',['items' => $items]);
+            $sort = $request->sort;
+            // $items = DB::table('people')->simplePaginate(5); //314ページ
+            $items = Person::orderBy($sort,'asc')->paginate(5);
+            $param = ['items' => $items, 'sort' => $sort];
+            return view('hello.index',$param);
         }
 
         public function post(Request $request) {
@@ -83,5 +86,16 @@ use Illuminate\Support\Facades\DB; // 192ページで追加
 
         public function rest(Request $request) {
             return view('hello.rest');
+        }
+
+        public function ses_get(Request $request) {
+            $ses_data = $request->session()->get('msg');
+            return view('hello.session',['session_data' => $ses_data]);
+        }
+
+        public function ses_put(Request $request) {
+            $msg = $request->input;
+            $request->session()->put('msg',$msg);
+            return redirect('hello/session');
         }
     }  
