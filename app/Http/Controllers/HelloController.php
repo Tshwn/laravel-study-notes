@@ -80,4 +80,8 @@ use Illuminate\Support\Facades\DB; // 192ページで追加
             }
             return view('hello.show',['item' => $item]);
         }
+
+        public function rest(Request $request) {
+            return view('hello.rest');
+        }
     }  
