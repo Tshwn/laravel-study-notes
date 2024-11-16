@@ -9,14 +9,15 @@ use Illuminate\Foundation\Validation\ValidatesRequests; //165ページで追加
 use Validator; // 144ページで追加
 use Illuminate\Support\Facades\DB; // 192ページで追加
 use App\Models\Person;
+use Illuminate\Support\Facades\Auth; //329ページで追加
 
     class HelloController extends Controller
     {
         public function index(Request $request) {
+            $user = Auth::user();
             $sort = $request->sort;
-            // $items = DB::table('people')->simplePaginate(5); //314ページ
-            $items = Person::orderBy($sort,'asc')->paginate(5);
-            $param = ['items' => $items, 'sort' => $sort];
+            $items = Person::orderBy($sort,'asc')->Paginate(5);
+            $param = ['items' => $items, 'sort' => $sort, 'user' => $user];
             return view('hello.index',$param);
         }
 
@@ -97,5 +98,22 @@ use App\Models\Person;
             $msg = $request->input;
             $request->session()->put('msg',$msg);
             return redirect('hello/session');
+        }
+
+        public function getAuth(Request $request) {
+            $param = ['message' => 'ログインしてください'];
+            return view('hello.auth', $param);
+        }
+
+        public function postAuth(Request $request) {
+            $email = $request->email;
+            $password = $request->password;
+            if ( Auth::attempt(['email' => $email,'password' => $password])) {
+                $msg = 'ログインしました。(' . Auth::user()->name . ')';
+                return redirect('/hello');
+            } else {
+                $msg = 'ログインに失敗しました。';
+            }
+            return view('hello.auth',['message' => $msg]);
         }
     }  
