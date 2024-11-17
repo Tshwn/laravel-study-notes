@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder; //253ページで追加
 use App\Scopes\ScopePerson; //255ページで追加
 
+use Illuminate\Database\Eloquent\Factories\HasFactory; //7-43を動かす
+
 class Person extends Model
 {
+    use HasFactory; //7-43を実行するために必要
     protected $table = 'people';
 
     public function boards() {

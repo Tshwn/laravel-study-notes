@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB; //231ページで追加
+use App\Models\Person;
 
 class PeopleTableSeeder extends Seeder
 {
@@ -18,20 +19,23 @@ class PeopleTableSeeder extends Seeder
             'mail' => 'taro@yamada.jp',
             'age' => '12',
         ];
-        DB::table('people')->insert($param);
+        $person = new Person;
+        $person->fill($param)->save();
 
         $param = [
             'name' => 'hanako',
             'mail' => 'hanako@flower.jp',
             'age' => '34',
         ];
-        DB::table('people')->insert($param);
+        $person = new Person;
+        $person->fill($param)->save();
 
         $param = [
             'name' => 'sahiko',
             'mail' => 'sachiko@happy.jp',
             'age' => '56',
         ];
-        DB::table('people')->insert($param);
+        $person = new Person;
+        $person->fill($param)->save();
     }
 }
